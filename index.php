@@ -1,7 +1,6 @@
-/* Modern-looking design with your company name and logo.
+<!-- Modern-looking design with your company name and logo.
 A welcome message explaining what the site is about.
-Navigation links to all other pages on the site. */
-
+Navigation links to all other pages on the site.-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +16,7 @@ Navigation links to all other pages on the site. */
 
 <body>
     <header>
-        <h1>ColorTheory</h1>
+        <img src=assets/nav-logo.png>
     </header>
 </body>
 
