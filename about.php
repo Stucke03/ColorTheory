@@ -1,5 +1,5 @@
-/* One section for each group member.
-Each section must include a name, a short bio, and a photo or graphic avatar. */
+<!--- One section for each group member.
+Each section must include a name, a short bio, and a photo or graphic avatar. --->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,10 +16,14 @@ Each section must include a name, a short bio, and a photo or graphic avatar. */
 <body>
     <header>
         <img src=assets/nav-logo.png width="500">
+        <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
     </header>
     <hr>
+    <main>
+        <p>About page</p>
+    </main>
 </body>
 
 </html>

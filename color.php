@@ -54,6 +54,7 @@ All other cells in the grid are empty. */
 <body>
     <header>
         <img src=assets/nav-logo.png width="500">
+        <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
     </header>
