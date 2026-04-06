@@ -16,7 +16,7 @@ Navigation links to all other pages on the site.-->
 
 <body>
     <header>
-        <img src=assets/nav-logo.png>
+        <img src=assets/nav-logo.png width="500">
     </header>
 </body>
 
