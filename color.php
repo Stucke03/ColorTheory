@@ -38,3 +38,26 @@ The upper leftmost cell is empty.
 The remaining cells across the top row are labeled with capital letters in alphabetical order, starting with A and going to Z. The maximum size is 26, so the last possible column label is Z.
 The cells in the leftmost column are numbered starting in the second row with 1 and numbering each row consecutively going down.
 All other cells in the grid are empty. */
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>ColorTheory homepage</title>
+    <meta name="authors" content="Nathan Stucke, Morgan Mitchell">
+    <meta name="description" content="A homepage for the ColorTheory website">
+    <meta name="keywords" content="Webpage, HTML5, Nathan Stucke, Morgan Mitchell, ColorTheory, CS312, Web Development, Colorado State University">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <img src=assets/nav-logo.png width="500">
+        <a href="about.php">About</a>
+        <a href="color.php">Color Coordinates</a>
+    </header>
+    <hr>
+</body>
+
+</html>
