@@ -26,16 +26,19 @@ Navigation links to all other pages on the site.-->
         <div class="image_container">
             <img class="orange-arch" src="assets/orange-arch.svg" alt="Orange Arch">
             <img class="purple-arch" src="assets/purple-arch.svg" alt="Purple Arch">
+        </div>
+        <div class="content-wrapper">
             <img class="home-logo" src="assets/logo.png" alt="Home Logo">
             <div class="text">
                 <p>Welcome to ColorTheory!</p>
                 <br>
-                <p>Let's put lots of words here blah blah blah they'll be so sexy yay words.</p>
-                <br>
-                <p>Try the color coordinator here:</p>
-                <button><a href="color.php">Color Coordinator</a></button>
-            </div>
+            <p>Let's put lots of words here blah blah blah they'll be so sexy yay words.</p>
+            <br>
+            <p>Try the color coordinator here:</p>
         </div>
+        <button><a href="color.php">Color Coordinator</a></button>
+    </div>
+</div>
     </main>
 </body>
 

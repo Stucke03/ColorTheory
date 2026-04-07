@@ -52,75 +52,84 @@ main{
 }
 
 p{
-    font-size: 40px;
+    font-size: 32px;
     font-family: "Raleway", sans-serif;
     color: white;
     margin: 0;
 }
+
 .image_container {
     position: relative;
     width: 100%;
-    max-width: 600px;
-    overflow: visible;
+    max-width: 1600px;
+    height: 90vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
 }
 
-.orange-arch {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) scale(1.9);
-    transform-origin: bottom center;
-    z-index: 1;
-}
-
+.orange-arch,
 .purple-arch {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translateX(-50%) scale(1.65);
-    transform-origin: bottom center;
+    transform: translateX(-50%);
+    height: auto;
+}
+
+.orange-arch {
+    width: 60%;
+    height: auto;
+    z-index: 1;
+}
+
+.purple-arch {
+    width: 50%;
+    height: auto;
     z-index: 2;
 }
 
-.home-logo{
+.content-wrapper {
     position: absolute;
-    bottom: 590px;
-    right: 100px;
-    z-index: 4;
-    scale: 1.5;
-}
-
-.text {
-    position: absolute;
-    bottom: 50%;
-    right: -25%;
-    z-index: 3;
-    color: white;
-    font-size: 50px;
-    
-    font-weight: bold;
+    bottom: 5%;
+    width: 40%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 150%;
-    padding-bottom: 80px;
+    z-index: 3;
 }
 
-button {
+.home-logo {
+    width: 45%;
+    height: auto;
+    margin-bottom: 5%;
+}
+
+.content-wrapper .text {
+    color: white;
+    font-size: 2.5vh;
+    font-weight: bold;
+    margin-bottom: 5%;
+    word-wrap: break-word;
+    width: 90%;
+}
+
+.content-wrapper button {
     background-color: #EB8258;
-    margin-top: 45px;
-    padding: 22px;
-    padding-left: 40px;
-    padding-right: 40px;
-    margin-bottom: -30px;
+    padding: 1.2vh 3vw;
     border-radius: 75px;
     border: white solid 5px;
 }
 
-button a {
-    font-size: 40px;
+.content-wrapper button a {
+    font-size: 2.2vh;
     font-family: "Raleway", sans-serif;
     color: white;
     font-weight: bold;
     text-decoration: none;
-    margin: 8px;
-    padding: 8px;
 }
