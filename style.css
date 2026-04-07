@@ -33,3 +33,8 @@ body{
     background-color: #F6F740;
     margin: 0;
 }
+
+main{
+    display: grid;
+    place-items: center;
+}
