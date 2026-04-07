@@ -1,4 +1,4 @@
-// 4.1 - Input form 
+<!--- // 4.1 - Input form 
 /* Rows and Columns: One number that sets both the number of rows and columns. Must be between 1 and 26.
 Number of Colors: How many colors to show. Must be between 1 and 10.
 A submit button that generates the tables below. */
@@ -37,7 +37,24 @@ The table is always square. All cells must have equal height and width.
 The upper leftmost cell is empty.
 The remaining cells across the top row are labeled with capital letters in alphabetical order, starting with A and going to Z. The maximum size is 26, so the last possible column label is Z.
 The cells in the leftmost column are numbered starting in the second row with 1 and numbering each row consecutively going down.
-All other cells in the grid are empty. */
+All other cells in the grid are empty. */ --->
+
+<?php
+$rowsCols = $_POST['size'] ?? '';
+$numColors = $_POST['colors'] ?? '';
+
+$errors = [];
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if ($rowsCols < 1 || $rowsCols > 26) {
+        $errors[] = "Rows and Columns must be between 1 and 26.";
+    }
+
+    if ($numColors < 1 || $numColors > 10) {
+        $errors[] = "Number of Colors must be between 1 and 10.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +65,31 @@ All other cells in the grid are empty. */
     <meta name="authors" content="Nathan Stucke, Morgan Mitchell">
     <meta name="description" content="A homepage for the ColorTheory website">
     <meta name="keywords" content="Webpage, HTML5, Nathan Stucke, Morgan Mitchell, ColorTheory, CS312, Web Development, Colorado State University">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-color.css">
+
+    <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        .color-table td:first-child { width: 20%; }
+        .color-table td:last-child { width: 80%; }
+
+        .grid td {
+            width: 30px;
+            height: 30px;
+        }
+
+        .error { color: red; }
+        .message { color: orange; }
+    </style>
 </head>
 
 <body>
@@ -59,6 +100,146 @@ All other cells in the grid are empty. */
         <a href="color.php">Color Coordinates</a>
     </header>
     <hr>
+    <form method="POST">
+    <label>Rows and Columns:</label>
+    <input type="number" name="size" min="1" max="26"
+           value="<?= htmlspecialchars($rowsCols) ?>">
+
+    <label>Number of Colors:</label>
+    <input type="number" name="colors" min="1" max="10"
+           value="<?= htmlspecialchars($numColors) ?>">
+
+    <button type="submit">Generate</button>
+    </form>
+
+    <?php foreach ($errors as $error): ?>
+    <div class="error"><?= $error ?></div>
+    <?php endforeach; ?>
+
+    <main>
+        <style>
+        table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        td {
+            border: 3px solid #995D81;
+            text-align: center;
+        }
+
+        .color-table td:first-child {
+            width: 20%;
+        }
+
+        .color-table td:last-child {
+            width: 80%;
+        }
+
+        .grid td {
+            width: 30px;
+            height: 30px;
+        }
+
+        .error {
+            color: red;
+            margin: 5px 0;
+        }
+
+        .message {
+            color: orange;
+        }
+    </style>
+
+    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($errors)): ?>
+
+        <table class="color-table">
+<?php
+$colors = ["Red","Orange","Yellow","Green","Blue","Purple","Grey","Brown","Black","Teal"];
+
+for ($i = 0; $i < $numColors; $i++):
+?>
+<tr>
+    <td>
+        <select class="color-dropdown">
+            <?php foreach ($colors as $color): ?>
+                <option value="<?= $color ?>" <?= $i === array_search($color, $colors) ? 'selected' : '' ?>>
+                    <?= $color ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </td>
+    <td class="color-preview"></td>
+</tr>
+<?php endfor; ?>
+</table>
+
+<div id="color-warning" class="message"></div>
+
+<script>
+const dropdowns = document.querySelectorAll(".color-dropdown");
+const warning = document.getElementById("color-warning");
+
+dropdowns.forEach(drop => {
+    drop.dataset.previous = drop.value;
+
+    drop.addEventListener("change", () => {
+        const selectedValues = [];
+
+        dropdowns.forEach(d => {
+            if (d !== drop) selectedValues.push(d.value);
+        });
+
+        if (selectedValues.includes(drop.value)) {
+            warning.textContent = "That color is already in use.";
+            drop.value = drop.dataset.previous;
+        } else {
+            warning.textContent = "";
+            drop.dataset.previous = drop.value;
+        }
+
+        updatePreviews();
+    });
+});
+
+function updatePreviews() {
+    document.querySelectorAll(".color-preview").forEach((cell, index) => {
+        const color = dropdowns[index].value;
+        cell.style.backgroundColor = color.toLowerCase();
+    });
+}
+
+updatePreviews();
+</script>
+
+<table class="grid">
+<?php
+$n = (int)$rowsCols;
+
+for ($i = 0; $i <= $n; $i++):
+    echo "<tr>";
+
+    for ($j = 0; $j <= $n; $j++) {
+
+        if ($i === 0 && $j === 0) {
+            echo "<td></td>";
+        } elseif ($i === 0) {
+            echo "<td>" . chr(64 + $j) . "</td>";
+        } elseif ($j === 0) {
+            echo "<td>$i</td>";
+        } else {
+            echo "<td></td>";
+        }
+    }
+
+    echo "</tr>";
+endfor;
+?>
+</table>
+
+<?php endif; ?>
+    </main>
 </body>
 
 </html>
