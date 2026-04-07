@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         .message {
-            color: orange;
+            color: black;
         }
     </style>
 
