@@ -39,13 +39,14 @@ body main{
 }
 
 table{
-    background-color: #EB8258;
+    background-color: #F6F740;
 }
 
-table td:first-child, tr th:first-child {
+table td:first-child, tr:first-child {
   background-color: #995D81;
 }
 
 .grid{
     color: white;
+    border: 10px solid #6689A1;
 }

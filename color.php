@@ -125,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         td {
-            border: 3px solid #995D81;
+            border: 3px solid #6689A1;
             text-align: center;
         }
 
