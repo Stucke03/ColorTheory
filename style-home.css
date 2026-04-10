@@ -60,7 +60,7 @@
 }
 
 .content-wrapper button {
-    background-color: #9B3912;
+    background-color: #9B3912; /* Contrast score: 7.02 */
     padding: 1.2vh 3vw;
     border-radius: 75px;
     border: white solid 5px;

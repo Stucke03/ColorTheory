@@ -54,12 +54,12 @@ h1 {
 }
 
 h2 {
-    color: #F9F977;
+    color: #F9F977; /* Contrast score: 7.02 */
     text-align: center;
     font-size: 2vw; 
     top: 20vh;
 }
-p{
+p{  /* Contrast score: 7.86 */
     padding: 1vw;
     text-align: center;
     top: 18vh;
