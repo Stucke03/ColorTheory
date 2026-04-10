@@ -62,8 +62,10 @@ h2 {
 p{
     padding: 1vw;
     text-align: center;
-    top: 20vh;
+    top: 18vh;
     font-size: 1.25vw;
+    font-family: "Raleway", sans-serif;
+    font-weight: bold;
 }
 
 .circle{

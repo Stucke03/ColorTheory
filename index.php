@@ -33,7 +33,7 @@ Navigation links to all other pages on the site.-->
             <div class="text">
                 <p>Welcome to ColorTheory!</p>
                 <br>
-            <p>Let's put lots of words here blah blah blah they'll be so sexy yay words.</p>
+            <p>We aim to help designers create beautiful color palettes with our color coordinator tool.</p>
             <br>
             <p>Try the color coordinator here:</p>
         </div>
