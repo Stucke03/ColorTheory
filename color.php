@@ -116,6 +116,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="error"><?= $error ?></div>
     <?php endforeach; ?>
 
+    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($errors)): ?>
+<form method="POST" action="print.php" id="print-form">
+    <input type="hidden" name="size" value="<?= htmlspecialchars($rowsCols) ?>">
+    <input type="hidden" name="colors" value="<?= htmlspecialchars($numColors) ?>">
+    <div id="hidden-color-inputs"></div>
+    <button type="submit" onclick="collectColors()">Printable View</button>
+</form>
+
+<script>
+function collectColors() {
+    const container = document.getElementById("hidden-color-inputs");
+    container.innerHTML = "";
+    document.querySelectorAll(".color-dropdown").forEach((drop, i) => {
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "selected_colors[]";
+        input.value = drop.value;
+        container.appendChild(input);
+    });
+}
+</script>
+<?php endif; ?>
+
     <main>
         <style>
         table {
