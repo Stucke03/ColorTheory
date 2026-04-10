@@ -29,7 +29,7 @@ Navigation links to all other pages on the site.-->
             <img class="purple-arch" src="assets/purple-arch.svg" alt="Purple Arch">
         </div>
         <div class="content-wrapper">
-            <img class="home-logo" src="assets/logo-purple.jpeg" alt="Home Logo">
+            <img class="home-logo" src="assets/logo-purple.png" alt="Home Logo">
             <div class="text">
                 <p>Welcome to ColorTheory!</p>
                 <br>
