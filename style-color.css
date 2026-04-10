@@ -9,19 +9,6 @@ Pale Amber: #D8DC6A
 Air Force Blue: #6689A1
 */
 
-header{
-    background-color: white;
-}
-
-header a{
-    float: right;
-    font-size: 50px;
-    margin-right: 50px;
-    text-decoration: none;
-    color: #995D81;
-    margin-top: 16px;
-}
-
 hr{
     height: 5px;
     background-color: #6689A1;
