@@ -2,9 +2,9 @@
 /* Leave comment near pairs with scores */
 
 /* Color Scheme: 
-Dusty Lavender: #995D81
-Coral Glow: #EB8258
-Canary Yellow: #F6F740
+Dusty Lavender: #6F4460
+Coral Glow: #9B3912
+Canary Yellow: #F9F977
 Pale Amber: #D8DC6A
 Air Force Blue: #6689A1
 */
@@ -17,7 +17,7 @@ header a{
     font-size: 40px;
     margin-right: 75px;
     text-decoration: none;
-    color: #995D81;
+    color: #6F4460;
     margin-top: 16px;
     font-family: Raleway, sans-serif;
     font-weight: bold;
@@ -31,7 +31,7 @@ hr{
 }
 
 body{
-    background-color: #F6F740;
+    background-color: #F9F977;
     margin: 0;
 }
 
@@ -40,11 +40,11 @@ body main{
 }
 
 table{
-    background-color: #F6F740;
+    background-color: #F9F977;
 }
 
 table td:first-child, tr:first-child {
-  background-color: #995D81;
+  background-color: #6F4460;
 }
 
 .grid{

@@ -53,7 +53,9 @@ Each section must include a name, a short bio, and a photo or graphic avatar. --
                             <h2>NATHAN STUCKE</h2>
                             <p>Nathan is a third year Computer Science student at CSU. He hopes to go into web development after graduation.</p>
                         </div>
-                        <div class="picture"></div>
+                        <div class="picture nate">
+                            <img src="assets/pic-of-nate.jpeg" alt="Nathan Stucke">
+                        </div>
                     </div>
                 </div>
             </div>

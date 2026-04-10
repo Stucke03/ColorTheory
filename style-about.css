@@ -20,7 +20,7 @@ header {
     padding-left: 2vw;
 }
 h1 {
-    color: #995D81;
+    color: #6F4460;
     font-family: "Raleway", sans-serif;
     font-size: 5vw;
     justify-content: center;
@@ -48,13 +48,13 @@ h1 {
     left: 5vh;
     width: 25vw;
     height: 60vh;
-    background-color: #995D81;
+    background-color: #6F4460;
     border: solid 10px white;
     border-top: none;
 }
 
 h2 {
-    color: #F6F740;
+    color: #F9F977;
     text-align: center;
     font-size: 2vw; 
     top: 20vh;
@@ -84,7 +84,7 @@ p{
     left: 5vh;
     width: 25vw;
     height: 25vw;
-    background-color: #995D81;
+    background-color: #6F4460;
     border-radius: 50%;
     border: solid 10px white;
 }
@@ -121,4 +121,8 @@ p{
     border-radius: 50%;
     border: solid 7px white;
     object-fit: cover;
+}
+
+.picture.nate img{
+    object-position: center 0%;
 }
