@@ -66,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="description" content="A homepage for the ColorTheory website">
     <meta name="keywords" content="Webpage, HTML5, Nathan Stucke, Morgan Mitchell, ColorTheory, CS312, Web Development, Colorado State University">
     <link rel="stylesheet" href="style-color.css">
-    <link rel="stylesheet" href="style.css">
 
     <style>
         table {

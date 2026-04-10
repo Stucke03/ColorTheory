@@ -8,6 +8,20 @@ Canary Yellow: #F6F740
 Pale Amber: #D8DC6A
 Air Force Blue: #6689A1
 */
+header{
+    background-color: white;
+}
+
+header a{
+    float: right;
+    font-size: 40px;
+    margin-right: 75px;
+    text-decoration: none;
+    color: #995D81;
+    margin-top: 16px;
+    font-family: Raleway, sans-serif;
+    font-weight: bold;
+}
 
 hr{
     height: 5px;
