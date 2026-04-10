@@ -12,6 +12,7 @@ Navigation links to all other pages on the site.-->
     <meta name="description" content="A homepage for the ColorTheory website">
     <meta name="keywords" content="Webpage, HTML5, Nathan Stucke, Morgan Mitchell, ColorTheory, CS312, Web Development, Colorado State University">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-home.css">
 </head>
 
 <body>

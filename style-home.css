@@ -1,0 +1,75 @@
+.image_container {
+    position: relative;
+    width: 100%;
+    max-width: 1600px;
+    height: 90vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+}
+
+.orange-arch,
+.purple-arch {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: auto;
+}
+
+.orange-arch {
+    width: 60%;
+    height: auto;
+    z-index: 1;
+}
+
+.purple-arch {
+    width: 50%;
+    height: auto;
+    z-index: 2;
+}
+
+.content-wrapper {
+    position: absolute;
+    bottom: 5%;
+    width: 40%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 3;
+}
+
+.home-logo {
+    width: 45%;
+    height: auto;
+    margin-bottom: 5%;
+}
+
+.content-wrapper .text {
+    color: white;
+    font-size: 2.5vh;
+    font-weight: bold;
+    margin-bottom: 5%;
+    word-wrap: break-word;
+    width: 90%;
+}
+
+.content-wrapper button {
+    background-color: #EB8258;
+    padding: 1.2vh 3vw;
+    border-radius: 75px;
+    border: white solid 5px;
+}
+
+.content-wrapper button a {
+    font-size: 2.2vh;
+    font-family: "Raleway", sans-serif;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
