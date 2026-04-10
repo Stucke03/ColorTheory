@@ -160,9 +160,15 @@ function collectColors() {
             width: 80%;
         }
 
+        .grid {
+            width: auto;
+        }
+
         .grid td {
             width: 30px;
             height: 30px;
+            min-width: 30px;
+            max-width: 30px;
         }
 
         .error {
