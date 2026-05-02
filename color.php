@@ -98,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
+        <a href="colors.php">Color Selection</a>
     </header>
     <hr>
     <form method="POST">

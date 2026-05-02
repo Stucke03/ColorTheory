@@ -126,3 +126,14 @@ p{  /* Contrast score: 7.86 */
 .picture.nate img{
     object-position: center 0%;
 }
+
+header a{
+    float: right;
+    font-size: 36px;
+    margin-right: 50px;
+    text-decoration: none;
+    color: #6F4460; /* Contrast score: 7.86 */
+    margin-top: 16px;
+    font-family: Raleway, sans-serif;
+    font-weight: bold;
+}

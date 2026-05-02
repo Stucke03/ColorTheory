@@ -21,6 +21,8 @@ Navigation links to all other pages on the site.-->
         <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
+        <a href="colors.php">Color Selection</a>
+
     </header>
     <hr>
     <main>

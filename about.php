@@ -20,6 +20,8 @@ Each section must include a name, a short bio, and a photo or graphic avatar. --
         <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
+        <a href="colors.php">Color Selection</a>
+
     </header>
     <hr>
     <main>
