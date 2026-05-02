@@ -13,7 +13,6 @@ $selectedColors = $_POST['selected_colors'] ?? [];
 
 $allColors = ["Red","Orange","Yellow","Green","Blue","Purple","Grey","Brown","Black","Teal"];
 
-// Fill in defaults if selected_colors weren't passed
 for ($i = count($selectedColors); $i < $numColors; $i++) {
     $selectedColors[] = $allColors[$i];
 }

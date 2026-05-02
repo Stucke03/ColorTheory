@@ -98,14 +98,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <a href="index.php">Home</a>
         <a href="about.php">About</a>
         <a href="color.php">Color Coordinates</a>
+        <a href="colors.php">Color Selection</a>
     </header>
     <hr>
     <form method="POST">
-    <label>Rows and Columns:</label>
+    <label>Rows and Columns 1-26:</label>
     <input type="number" name="size" min="1" max="26"
            value="<?= htmlspecialchars($rowsCols) ?>">
 
-    <label>Number of Colors:</label>
+    <label>Number of Colors 1-10:</label>
     <input type="number" name="colors" min="1" max="10"
            value="<?= htmlspecialchars($numColors) ?>">
 
