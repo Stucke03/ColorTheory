@@ -1,53 +1,98 @@
 /* Every text/background pair needs a contrast value of 7 https://webaim.org/resources/contrastchecker/ */
 /* Leave comment near pairs with scores */
 
-/* Color Scheme: 
+/* Color Scheme:
 Dusty Lavender: #6F4460
 Coral Glow: #9B3912
 Canary Yellow: #F9F977
 Pale Amber: #D8DC6A
 Air Force Blue: #6689A1
 */
-header{
-    background-color: white;
+
+body {
+    background-color: #F9F977;
+    margin: 0;
 }
 
-header a{
-    float: right;
-    font-size: 36px;
-    margin-right: 50px;
-    text-decoration: none;
-    color: #6F4460; /* Contrast score: 7.86 */
-    margin-top: 16px;
-    font-family: Raleway, sans-serif;
-    font-weight: bold;
+body main {
+    margin: 20px;
 }
 
-hr{
+hr {
     height: 5px;
     background-color: #6689A1;
     margin: 0;
     width: 100%;
 }
 
-body{
+header {
+    background-color: white;
+}
+
+header a {
+    float: right;
+    font-size: 36px;
+    margin-right: 50px;
+    margin-top: 16px;
+    text-decoration: none;
+
+    color: #6F4460; /* Contrast score: 7.86 */
+    font-family: Raleway, sans-serif;
+    font-weight: bold;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 100%;
     background-color: #F9F977;
-    margin: 0;
 }
 
-body main{
-    margin: 20px;
+td {
+    border: 3px solid #6689A1;
+    text-align: center;
 }
 
-table{
-    background-color: #F9F977;
+.color-table td:first-child {
+    width: 20%;
 }
 
-table td:first-child, tr:first-child {
-  background-color: #6F4460;
+.color-table td:last-child {
+    width: 80%;
 }
 
-.grid{
-    color: white;
+.grid {
+    width: auto;
     border: 10px solid #6689A1;
+    color: white;
+}
+
+.grid td {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+}
+
+.error {
+    color: red;
+    margin: 5px 0;
+}
+
+.message {
+    color: black;
+}
+
+.input-error {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
+
+.radio-button {
+    background-color: #6F4460;
+}
+
+table td:first-child,
+tr:first-child {
+    background-color: #6F4460;
 }
