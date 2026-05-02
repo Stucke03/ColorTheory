@@ -43,17 +43,29 @@ All other cells in the grid are empty. */ --->
 $rowsCols = $_POST['size'] ?? '';
 $numColors = $_POST['colors'] ?? '';
 
-$errors = [];
+$errors = [
+    'size' => '',
+    'colors' => ''
+];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if ($rowsCols < 1 || $rowsCols > 26) {
-        $errors[] = "Rows and Columns must be between 1 and 26.";
+
+    if ($rowsCols === '' || !is_numeric($rowsCols) || $rowsCols < 1 || $rowsCols > 26) {
+        $errors['size'] = "Rows and Columns must be between 1 and 26.";
     }
 
-    if ($numColors < 1 || $numColors > 10) {
-        $errors[] = "Number of Colors must be between 1 and 10.";
+    if ($numColors === '' || !is_numeric($numColors) || $numColors < 1 || $numColors > 10) {
+        $errors['colors'] = "Number of Colors must be between 1 and 10.";
+    }
+
+    if (empty($errors['size']) && empty($errors['colors'])) {
+        $rowsCols = (int)$rowsCols;
+        $numColors = (int)$numColors;
     }
 }
+
+$hasErrors = !empty($errors['size']) || !empty($errors['colors']);
+
 ?>
 
 <!DOCTYPE html>
@@ -102,28 +114,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </header>
     <hr>
     <form method="POST">
-    <label>Rows and Columns 1-26:</label>
-    <input type="number" name="size" min="1" max="26"
-           value="<?= htmlspecialchars($rowsCols) ?>">
+        <label>Rows and Columns 1-26:</label>
+        <input type="number" name="size"
+                value="<?= htmlspecialchars($rowsCols) ?>"
+                class="<?= !empty($errors['size']) ? 'input-error' : '' ?>">
 
-    <label>Number of Colors 1-10:</label>
-    <input type="number" name="colors" min="1" max="10"
-           value="<?= htmlspecialchars($numColors) ?>">
+        <?php if ($errors['size']): ?>
+            <div class="error"><?= $errors['size'] ?></div>
+        <?php endif; ?>
+
+        <label>Number of Colors 1-10:</label>
+        <input type="number" name="colors"
+                value="<?= htmlspecialchars($numColors) ?>"
+                class="<?= !empty($errors['colors']) ? 'input-error' : '' ?>">
+
+        <?php if ($errors['colors']): ?>
+            <div class="error"><?= $errors['colors'] ?></div>
+        <?php endif; ?>
 
     <button type="submit">Generate</button>
     </form>
 
-    <?php foreach ($errors as $error): ?>
-    <div class="error"><?= $error ?></div>
-    <?php endforeach; ?>
-
-    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($errors)): ?>
-<form method="POST" action="print.php" id="print-form">
-    <input type="hidden" name="size" value="<?= htmlspecialchars($rowsCols) ?>">
-    <input type="hidden" name="colors" value="<?= htmlspecialchars($numColors) ?>">
-    <div id="hidden-color-inputs"></div>
-    <button type="submit" onclick="collectColors()">Printable View</button>
-</form>
+    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && !$hasErrors): ?>
+    <form method="POST" action="print.php" id="print-form">
+        <input type="hidden" name="size" value="<?= htmlspecialchars($rowsCols) ?>">
+        <input type="hidden" name="colors" value="<?= htmlspecialchars($numColors) ?>">
+        <div id="hidden-color-inputs"></div>
+        <button type="submit" onclick="collectColors()">Printable View</button>
+    </form>
 
 <script>
 function collectColors() {
@@ -180,9 +198,14 @@ function collectColors() {
         .message {
             color: black;
         }
+
+        .input-error {
+            border: 2px solid red;
+            background-color: #ffe6e6;
+        }
     </style>
 
-    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && empty($errors)): ?>
+    <?php if ($_SERVER["REQUEST_METHOD"] === "POST" && !$hasErrors): ?>
 
         <table class="color-table">
 <?php
