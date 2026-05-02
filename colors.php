@@ -1,0 +1,1 @@
+<link rel="stylesheet" href="colors_dynamic.php">
