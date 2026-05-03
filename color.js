@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const dropdowns = document.querySelectorAll(".color-dropdown");
     const warning = document.getElementById("color-warning");
+    const colorMap = {};
 
     dropdowns.forEach(drop => {
         drop.dataset.previous = drop.value;
@@ -25,7 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 drop.dataset.previous = drop.value;
             }
 
+            const oldColor = drop.dataset.previous
+            const newColor = drop.value.toLowerCase();
+
+            colorMap[oldColor] = newColor;
+
             updatePreviews();
+            recolorGrid();
         });
     });
 
@@ -49,11 +56,35 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+    const coordDisplays = document.querySelectorAll(".coord-display");
+    const colorData = {};
+    const coordOwner = {};
 
-    document.getElementById("grid").addEventListener("click", (e) => {
-    if (e.target.classList.contains("inner")) {
-        console.log("click");
-        e.target.style.backgroundColor = activeColor;
+    document.getElementById("grid").addEventListener("click", (cell) => {
+    if (cell.target.classList.contains("inner")) {
+        cell.target.style.backgroundColor = activeColor;
+
+        const row = cell.target.dataset.row;
+        const col = cell.target.dataset.col;
+        const coord = `${col}${row}`
+
+        if (coordOwner[coord] === activeColor) return;
+
+        const previousColor = coordOwner[coord];
+    if (previousColor) {
+        colorData[previousColor] =
+            colorData[previousColor].filter(c => c !== coord);
+    }
+
+    coordOwner[coord] = activeColor;
+    if (!colorData[activeColor]){
+            colorData[activeColor] = [];
+        }
+    colorData[activeColor].push(coord);
+    cell.target.dataset.color = activeColor;
+    applyColorToCell(cell.target);
+
+    renderCoordinates();
     }
 });
 
@@ -104,10 +135,57 @@ document.addEventListener("DOMContentLoaded", function () {
                     cell.classList.add("inner");
                 }
 
+                cell.dataset.row = i;
+                cell.dataset.col = String.fromCharCode(64 + j);
+
                 row.appendChild(cell);
             }
 
             grid.appendChild(row);
         }
     }
+
+    function renderCoordinates() {
+    radioButtons.forEach((radio, i) => {
+        const color = dropdowns[i].value.toLowerCase();
+
+        const coords = colorData[color] || [];
+        const sorted = sortCoords([...coords]);
+
+        coordDisplays[i].textContent = sorted.join(", ");
+    });
+}
+
+    function sortCoords(coords) {
+    return coords.sort((a, b) => {
+        const [aLetter, aNum] = [a[0], parseInt(a.slice(1))];
+        const [bLetter, bNum] = [b[0], parseInt(b.slice(1))];
+
+        if (aLetter === bLetter) {
+            return aNum - bNum;
+        }
+        return aLetter.localeCompare(bLetter);
+    });
+}
+
+    function applyColorToCell(cell) {
+    const baseColor = cell.dataset.color;
+
+    const finalColor = resolveColor(baseColor);
+
+    cell.style.backgroundColor = finalColor;
+    }
+
+    function resolveColor(color) {
+    while (colorMap[color]) {
+        color = colorMap[color];
+    }
+    return color
+}
+
+function recolorGrid() {
+    document.querySelectorAll(".inner").forEach(cell => {
+        applyColorToCell(cell);
+    });
+}
 });

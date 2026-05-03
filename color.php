@@ -103,7 +103,7 @@ for ($i = 0; $i < $numColors; $i++): ?>
         <input type="radio" name="selected_color" value="<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?>>
     </td>
 
-    <td class="color-preview"></td>
+    <td class="color-preview coord-display"></td>
 </tr>
 <?php endfor; ?>
 </table>
