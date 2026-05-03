@@ -2,6 +2,7 @@
 $n = (int)($_POST['size'] ?? 3); 
 $numColors = (int)($_POST['colors'] ?? 1); 
 $selectedColors = $_POST['selected_colors'] ?? [];
+$colorData = json_decode($_POST['colorData'] ?? '{}', true);
 
 $allColors = ["Red","Orange","Yellow","Green","Blue","Purple","Grey","Brown","Black","Teal"]; 
 
@@ -44,10 +45,13 @@ for ($i = count($selectedColors); $i < $numColors; $i++) {
 <?php for ($i = 0; $i < $numColors; $i++):
     $colorName = $selectedColors[$i];
     $hex = $colorMap[$colorName];
+
+    $key = strtolower(trim($colorName));
+    $coords = $colorData[$key] ?? "NO MATCH";
     ?>
 <tr>
     <td><?= htmlspecialchars("$colorName --- $hex") ?></td>
-    <td><?= htmlspecialchars(" ") ?></td>
+    <td><?= htmlspecialchars($coords) ?></td>
 </tr>
 <?php endfor; ?>
 </table> 

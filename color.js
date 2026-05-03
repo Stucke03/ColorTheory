@@ -93,20 +93,40 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    window.collectColors = function () {
-        const container = document.getElementById("hidden-color-inputs");
-        if (!container) return;
+    window.preparePrintData = function () {
 
-        container.innerHTML = "";
+    const container = document.getElementById("hidden-color-inputs");
+    const form = document.getElementById("print-form");
 
-        document.querySelectorAll(".color-dropdown").forEach(drop => {
-            const input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "selected_colors[]";
-            input.value = drop.value;
-            container.appendChild(input);
-        });
-    };
+    if (!container || !form) return;
+
+    container.innerHTML = "";
+
+    const payload = {};
+    
+    document.querySelectorAll(".color-dropdown").forEach(drop => {
+        const color = drop.value.toLowerCase();
+        payload[color] = [];
+    });
+
+    Object.keys(coordOwner).forEach(coord => {
+        const ownerIndex = coordOwner[coord];
+        const color = dropdowns[ownerIndex].value.toLowerCase();
+
+        payload[color].push(coord);
+    });
+
+    Object.keys(payload).forEach(color => {
+        payload[color] = sortCoords(payload[color]).join(", ");
+    });
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "colorData";
+    input.value = JSON.stringify(payload);
+
+    container.appendChild(input);
+};
 
     function updatePreviews() {
         document.querySelectorAll(".color-preview").forEach((cell, i) => {

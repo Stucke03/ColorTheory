@@ -77,7 +77,7 @@ $hasErrors = !empty($errors['size']) || !empty($errors['colors']);
 
     <?php if ($isPost && !$hasErrors): ?>
 
-    <form method="POST" action="print.php" id="print-form">
+    <form method="POST" action="print.php" id="print-form" onsubmit="preparePrintData()">
         <input type="hidden" name="size" value="<?= htmlspecialchars($rowsCols) ?>">
         <input type="hidden" name="colors" value="<?= htmlspecialchars($numColors) ?>">
         <div id="hidden-color-inputs"></div>
