@@ -7,12 +7,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const dropdowns = document.querySelectorAll(".color-dropdown");
     const warning = document.getElementById("color-warning");
-    const colorMap = {};
 
     dropdowns.forEach(drop => {
         drop.dataset.previous = drop.value;
 
         drop.addEventListener("change", () => {
+            const previous = drop.dataset.previous;
 
             const used = Array.from(dropdowns)
                 .filter(d => d !== drop)
@@ -20,16 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (used.includes(drop.value)) {
                 warning.textContent = "That color is already in use.";
-                drop.value = drop.dataset.previous;
-            } else {
-                warning.textContent = "";
-                drop.dataset.previous = drop.value;
+                drop.value = previous;
+                return;
             }
 
-            const oldColor = drop.dataset.previous
-            const newColor = drop.value.toLowerCase();
+            warning.textContent = "";
 
-            colorMap[oldColor] = newColor;
+            const newColor = drop.value.toLowerCase();
+            drop.dataset.previous = newColor;
 
             updatePreviews();
             recolorGrid();
@@ -41,52 +39,59 @@ document.addEventListener("DOMContentLoaded", function () {
     const radioButtons = document.querySelectorAll('input[name="selected_color"]');
     let activeColor = dropdowns[0].value.toLowerCase();
 
-    for (let i = 0; i < radioButtons.length; i++){
-        if (radioButtons[i].checked){
+    for (let i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].checked) {
             activeColor = dropdowns[i].value.toLowerCase();
         }
     }
 
     radioButtons.forEach(radio => {
         radio.addEventListener("change", () => {
-            for (let i = 0; i < radioButtons.length; i++){
-                if (radioButtons[i].checked){
+            for (let i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
                     activeColor = dropdowns[i].value.toLowerCase();
                 }
             }
         });
     });
+
     const coordDisplays = document.querySelectorAll(".coord-display");
     const colorData = {};
     const coordOwner = {};
 
     document.getElementById("grid").addEventListener("click", (cell) => {
-    if (cell.target.classList.contains("inner")) {
-        cell.target.style.backgroundColor = activeColor;
+        if (cell.target.classList.contains("inner")) {
 
-        const row = cell.target.dataset.row;
-        const col = cell.target.dataset.col;
-        const coord = `${col}${row}`
+            const owner = getActiveIndex();
+            const row = cell.target.dataset.row;
+            const col = cell.target.dataset.col;
+            const coord = `${col}${row}`;
 
-        if (coordOwner[coord] === activeColor) return;
+            if (coordOwner[coord] === owner) return;
 
-        const previousColor = coordOwner[coord];
-    if (previousColor) {
-        colorData[previousColor] =
-            colorData[previousColor].filter(c => c !== coord);
-    }
+            const previousOwner = coordOwner[coord];
 
-    coordOwner[coord] = activeColor;
-    if (!colorData[activeColor]){
-            colorData[activeColor] = [];
+            if (previousOwner !== undefined) {
+                const prevColor = dropdowns[previousOwner].value.toLowerCase();
+                colorData[prevColor] =
+                    (colorData[prevColor] || []).filter(c => c !== coord);
+            }
+
+            coordOwner[coord] = owner;
+
+            const color = dropdowns[owner].value.toLowerCase();
+
+            if (!colorData[color]) {
+                colorData[color] = [];
+            }
+            colorData[color].push(coord);
+
+            cell.target.dataset.owner = owner;
+            applyColorToCell(cell.target);
+
+            renderCoordinates();
         }
-    colorData[activeColor].push(coord);
-    cell.target.dataset.color = activeColor;
-    applyColorToCell(cell.target);
-
-    renderCoordinates();
-    }
-});
+    });
 
     window.collectColors = function () {
         const container = document.getElementById("hidden-color-inputs");
@@ -123,14 +128,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (i === 0 && j === 0) {
                     cell.textContent = "";
                     cell.classList.add("inner");
-                } 
-                else if (i === 0) {
+                } else if (i === 0) {
                     cell.textContent = String.fromCharCode(64 + j);
-                } 
-                else if (j === 0) {
+                } else if (j === 0) {
                     cell.textContent = i;
-                } 
-                else {
+                } else {
                     cell.textContent = "";
                     cell.classList.add("inner");
                 }
@@ -146,46 +148,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderCoordinates() {
-    radioButtons.forEach((radio, i) => {
-        const color = dropdowns[i].value.toLowerCase();
+        radioButtons.forEach((radio, i) => {
+            const color = dropdowns[i].value.toLowerCase();
 
-        const coords = colorData[color] || [];
-        const sorted = sortCoords([...coords]);
+            const coords = colorData[color] || [];
+            const sorted = sortCoords([...coords]);
 
-        coordDisplays[i].textContent = sorted.join(", ");
-    });
-}
+            coordDisplays[i].textContent = sorted.join(", ");
+        });
+    }
 
     function sortCoords(coords) {
-    return coords.sort((a, b) => {
-        const [aLetter, aNum] = [a[0], parseInt(a.slice(1))];
-        const [bLetter, bNum] = [b[0], parseInt(b.slice(1))];
+        return coords.sort((a, b) => {
+            const [aLetter, aNum] = [a[0], parseInt(a.slice(1))];
+            const [bLetter, bNum] = [b[0], parseInt(b.slice(1))];
 
-        if (aLetter === bLetter) {
-            return aNum - bNum;
-        }
-        return aLetter.localeCompare(bLetter);
-    });
-}
+            if (aLetter === bLetter) {
+                return aNum - bNum;
+            }
+            return aLetter.localeCompare(bLetter);
+        });
+    }
 
     function applyColorToCell(cell) {
-    const baseColor = cell.dataset.color;
-
-    const finalColor = resolveColor(baseColor);
-
-    cell.style.backgroundColor = finalColor;
+        const owner = cell.dataset.owner;
+        if (owner !== undefined) {
+            const color = dropdowns[owner].value.toLowerCase();
+            cell.style.backgroundColor = color;
+        }
     }
 
-    function resolveColor(color) {
-    while (colorMap[color]) {
-        color = colorMap[color];
+    function recolorGrid() {
+        document.querySelectorAll(".inner").forEach(cell => {
+            applyColorToCell(cell);
+        });
     }
-    return color
-}
 
-function recolorGrid() {
-    document.querySelectorAll(".inner").forEach(cell => {
-        applyColorToCell(cell);
-    });
-}
+    function getActiveIndex() {
+        for (let i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].checked) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
 });
