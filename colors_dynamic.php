@@ -2,12 +2,14 @@
 header("Content-Type: text/css");
 require 'db.php';
 
-$result = $conn->query("SELECT * FROM colors");
+$result = $conn->query("SELECT name, hex_value FROM colors");
 
 while ($row = $result->fetch_assoc()) {
-    $name = strtolower($row['name']);
-    $hex = $row['hex_value'];
+    $class = strtolower($row['name']);
+    $class = preg_replace('/[^a-z0-9]/', '-', $class);
 
-    echo ".color-$name { background-color: $hex; }\n";
+    echo ".color-$class {\n";
+    echo "    background-color: {$row['hex_value']};\n";
+    echo "}\n\n";
 }
 ?>
