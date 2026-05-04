@@ -1,80 +1,103 @@
-<?php 
-$n = (int)($_POST['size'] ?? 3); 
-$numColors = (int)($_POST['colors'] ?? 1); 
-$selectedColors = $_POST['selected_colors'] ?? [];
-$colorData = json_decode($_POST['colorData'] ?? '{}', true);
+<?php
+$n          = (int)($_POST['size']   ?? 3);
+$numColors  = (int)($_POST['colors'] ?? 1);
 
-$allColors = ["Red","Orange","Yellow","Green","Blue","Purple","Grey","Brown","Black","Teal"]; 
+$colorMap = [
+    "red"    => "#FF0000",
+    "orange" => "#FFA500",
+    "yellow" => "#FFFF00",
+    "green"  => "#008000",
+    "blue"   => "#0000FF",
+    "purple" => "#800080",
+    "grey"   => "#808080",
+    "brown"  => "#A52A2A",
+    "black"  => "#000000",
+    "teal"   => "#008080"
+];
 
-$colorMap = [ 
-    "Red" => "#FF0000", 
-    "Orange" => "#FFA500", 
-    "Yellow" => "#FFFF00", 
-    "Green" => "#008000", 
-    "Blue" => "#0000FF", 
-    "Purple" => "#800080", 
-    "Grey" => "#808080", 
-    "Brown" => "#A52A2A", 
-    "Black" => "#000000", 
-    "Teal" => "#008080" 
-]; 
+// Parse each row_i input sent by preparePrintData()
+// Format: "colorname|coord1, coord2, ..."
+$rows = [];
+for ($i = 0; $i < $numColors; $i++) {
+    $raw = $_POST['row_' . $i] ?? '';
+    if ($raw === '') continue;
 
-for ($i = count($selectedColors); $i < $numColors; $i++) { 
-    $selectedColors[] = $allColors[$i]; 
-} 
+    $parts  = explode('|', $raw, 2);
+    $color  = strtolower(trim($parts[0]));
+    $coords = isset($parts[1]) ? trim($parts[1]) : '';
+    $hex    = $colorMap[$color] ?? '#cccccc';
 
-?> 
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-    <meta charset="utf-8"> 
-    <title>ColorTheory - Print View</title> 
-    <link rel="stylesheet" href="print.css"> 
-    <script defer src="color.js"></script> 
-</head> 
+    $rows[] = [
+        'color'  => ucfirst($color),
+        'hex'    => $hex,
+        'coords' => $coords,
+    ];
+}
 
-<body> 
+// Build a lookup: coord -> hex for coloring the grid
+$coordColor = [];
+foreach ($rows as $row) {
+    if ($row['coords'] === '') continue;
+    foreach (explode(',', $row['coords']) as $coord) {
+        $coord = trim($coord);
+        if ($coord !== '') {
+            $coordColor[$coord] = $row['hex'];
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ColorTheory - Print View</title>
+    <link rel="stylesheet" href="print.css">
+</head>
 
-<header> 
-    <img src="assets/nav-logo.png" alt="ColorTheory logo"> 
-    <a href="color.php">Back to Color Coordinates</a> 
-    <span>ColorTheory</span> 
-</header> 
+<body>
 
-<table class="color-table"> 
-<?php for ($i = 0; $i < $numColors; $i++):
-    $colorName = $selectedColors[$i];
-    $hex = $colorMap[$colorName];
+<header>
+    <img src="assets/nav-logo.png" alt="ColorTheory logo">
+    <a href="color.php">Back to Color Coordinates</a>
+    <span>ColorTheory</span>
+</header>
 
-    $key = strtolower(trim($colorName));
-    $coords = $colorData[$key] ?? "NO MATCH";
-    ?>
+<table class="color-table">
+<?php foreach ($rows as $row): ?>
 <tr>
-    <td><?= htmlspecialchars("$colorName --- $hex") ?></td>
-    <td><?= htmlspecialchars($coords) ?></td>
+    <td style="background-color: white; color: black; padding: 4px 8px;">
+        <?= htmlspecialchars($row['color']) ?> &mdash; <?= htmlspecialchars($row['hex']) ?>
+    </td>
+    <td style="background-color: white; color: black; padding: 4px 8px;">
+        <?= htmlspecialchars($row['coords']) ?>
+    </td>
 </tr>
-<?php endfor; ?>
-</table> 
+<?php endforeach; ?>
+</table>
 
-<table class="grid"> 
-    <tr> 
-        <td></td> 
-        <?php for ($j = 1; $j <= $n; $j++): ?> 
-            <td><?= chr(64 + $j) ?></td> 
-        <?php endfor; ?> 
-    </tr> 
+<table class="grid">
+    <tr>
+        <td></td>
+        <?php for ($j = 1; $j <= $n; $j++): ?>
+            <td><?= chr(64 + $j) ?></td>
+        <?php endfor; ?>
+    </tr>
 
-    <?php for ($i = 1; $i <= $n; $i++): ?> 
-        <tr> 
-            <td><?= $i ?></td> 
-            <?php for ($j = 1; $j <= $n; $j++): ?> 
-                <td></td> 
-            <?php endfor; ?> 
-        </tr> 
-    <?php endfor; ?> 
-</table> 
+    <?php for ($i = 1; $i <= $n; $i++): ?>
+        <tr>
+            <td><?= $i ?></td>
+            <?php for ($j = 1; $j <= $n; $j++):
+                $coord = chr(64 + $j) . $i;
+                $bg    = $coordColor[$coord] ?? '';
+                $style = $bg ? " style=\"background-color: {$bg};\"" : '';
+            ?>
+                <td></td>
+            <?php endfor; ?>
+        </tr>
+    <?php endfor; ?>
+</table>
 
-<button onclick="window.print()">Print this page</button> 
+<button onclick="window.print()">Print this page</button>
 
-</body> 
+</body>
 </html>

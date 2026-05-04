@@ -1,4 +1,3 @@
-
 <?php
 $isPost = $_SERVER["REQUEST_METHOD"] === "POST";
 $rowsCols = $_POST['size'] ?? '';
@@ -103,7 +102,9 @@ for ($i = 0; $i < $numColors; $i++): ?>
         <input type="radio" name="selected_color" value="<?= $i ?>" <?= $i === 0 ? 'checked' : '' ?>>
     </td>
 
-    <td class="color-preview coord-display"></td>
+    <td><div class="color-preview" style="width: 20px; height: 20px; display: inline-block; border: 1px solid #ccc;"></div></td>
+
+    <td class="coord-display" style="background-color: #6F4460; color: white;"></td>
 </tr>
 <?php endfor; ?>
 </table>

@@ -26,8 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             warning.textContent = "";
 
-            const newColor = drop.value.toLowerCase();
-            drop.dataset.previous = newColor;
+            drop.dataset.previous = drop.value;
 
             updatePreviews();
             recolorGrid();
@@ -55,8 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    const coordDisplays = document.querySelectorAll(".coord-display");
-    const colorData = {};
     const coordOwner = {};
 
     document.getElementById("grid").addEventListener("click", (cell) => {
@@ -69,22 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (coordOwner[coord] === owner) return;
 
-            const previousOwner = coordOwner[coord];
-
-            if (previousOwner !== undefined) {
-                const prevColor = dropdowns[previousOwner].value.toLowerCase();
-                colorData[prevColor] =
-                    (colorData[prevColor] || []).filter(c => c !== coord);
-            }
-
             coordOwner[coord] = owner;
-
-            const color = dropdowns[owner].value.toLowerCase();
-
-            if (!colorData[color]) {
-                colorData[color] = [];
-            }
-            colorData[color].push(coord);
 
             cell.target.dataset.owner = owner;
             applyColorToCell(cell.target);
@@ -94,39 +76,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     window.preparePrintData = function () {
+        const container = document.getElementById("hidden-color-inputs");
+        const form = document.getElementById("print-form");
 
-    const container = document.getElementById("hidden-color-inputs");
-    const form = document.getElementById("print-form");
+        if (!container || !form) return;
 
-    if (!container || !form) return;
+        container.innerHTML = "";
 
-    container.innerHTML = "";
+        const rowCoords = {};
 
-    const payload = {};
-    
-    document.querySelectorAll(".color-dropdown").forEach(drop => {
-        const color = drop.value.toLowerCase();
-        payload[color] = [];
-    });
+        dropdowns.forEach((_, i) => {
+            rowCoords[i] = [];
+        });
 
-    Object.keys(coordOwner).forEach(coord => {
-        const ownerIndex = coordOwner[coord];
-        const color = dropdowns[ownerIndex].value.toLowerCase();
+        Object.keys(coordOwner).forEach(coord => {
+            const owner = coordOwner[coord];
+            rowCoords[owner].push(coord);
+        });
 
-        payload[color].push(coord);
-    });
+        dropdowns.forEach((drop, i) => {
+            const color = drop.value.toLowerCase();
+            const coords = sortCoords(rowCoords[i]).join(", ");
 
-    Object.keys(payload).forEach(color => {
-        payload[color] = sortCoords(payload[color]).join(", ");
-    });
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "row_" + i;
+            input.value = color + "|" + coords;
 
-    const input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "colorData";
-    input.value = JSON.stringify(payload);
-
-    container.appendChild(input);
-};
+            container.appendChild(input);
+        });
+    };
 
     function updatePreviews() {
         document.querySelectorAll(".color-preview").forEach((cell, i) => {
@@ -168,12 +147,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function renderCoordinates() {
-        radioButtons.forEach((radio, i) => {
-            const color = dropdowns[i].value.toLowerCase();
+        const coordDisplays = document.querySelectorAll(".coord-display");
+        const rowCoords = {};
 
-            const coords = colorData[color] || [];
-            const sorted = sortCoords([...coords]);
+        dropdowns.forEach((_, i) => {
+            rowCoords[i] = [];
+        });
 
+        Object.keys(coordOwner).forEach(coord => {
+            const owner = coordOwner[coord];
+            rowCoords[owner].push(coord);
+        });
+
+        dropdowns.forEach((_, i) => {
+            const sorted = sortCoords(rowCoords[i]);
             coordDisplays[i].textContent = sorted.join(", ");
         });
     }
